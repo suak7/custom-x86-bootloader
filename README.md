@@ -2,7 +2,7 @@
   
 # Custom x86 Bootloader
 
-**A x86 bootloader with USB driver support, written from scratch**
+**A x86 bootloader with USB driver support, written from scratch.**
 
 | Start Date  | End Date |
 | ------------- | ------------- |
@@ -10,11 +10,14 @@
 
 </div>
 
-## Resources
-- [OSDev Wiki - Rolling Your Own Bootloader](<https://wiki.osdev.org/Rolling_Your_Own_Bootloader>)
-- [Carnegie Mellon University - Writing a Bootloader from Scratch](<https://www.cs.cmu.edu/~410-s07/p4/p4-boot.pdf>)
+## Requirements
+- x86_64-elf Cross-Compiler
+- GNU Make
+- NASM 
+- QEMU
 
 ## Building
+**Build and Run**
 ```bash
 make all    # Build boot sector and disk image
 make run    # Run in QEMU
@@ -25,6 +28,11 @@ make run    # Run in QEMU
 make all TOOLCHAIN=x86_64-elf  
 make run TOOLCHAIN=x86_64-elf  
 ```
+
+## Resources
+- [OSDev Wiki - Rolling Your Own Bootloader](<https://wiki.osdev.org/Rolling_Your_Own_Bootloader>)
+- [Carnegie Mellon University - Writing a Bootloader from Scratch](<https://www.cs.cmu.edu/~410-s07/p4/p4-boot.pdf>)
+
 
 ## License
 
