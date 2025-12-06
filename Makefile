@@ -5,11 +5,11 @@ BUILD_DIR := build
 IMAGE_DIR := images
 BOOT_DIR := boot
 
-MBR_BIN := $(BUILD_DIR)/master-boot-record.bin
+MBR_BIN := $(BUILD_DIR)/mbr.bin
 STAGE2_BIN := $(BUILD_DIR)/stage2.bin
 DISK_IMG := $(IMAGE_DIR)/boot.img
 
-MBR_SRC := $(BOOT_DIR)/master-boot-record.asm
+MBR_SRC := $(BOOT_DIR)/mbr.asm
 
 all: $(DISK_IMG)
 

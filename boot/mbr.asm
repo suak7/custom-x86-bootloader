@@ -1,34 +1,34 @@
-%define mbr_load_address 0x7C00
-%define mbr_relocate_address 0x0600
+%define load_address 0x7C00
+%define relocate_address 0x0600
 %define stage2_address 0x7E00
 %define stage2_sectors 8
 
-[org mbr_load_address]        
+[org load_address]        
 [bits 16]
 
-boot_start:
+start_boot:
     cli
     xor ax, ax                      
     mov ds, ax                      
     mov es, ax                      
     mov ss, ax                      
-    mov sp, mbr_load_address           
+    mov sp, load_address           
     mov [boot_drive], dl
 
     sti
 
-    mov si, mbr_load_address    
-    mov di, mbr_relocate_address
+    mov si, load_address    
+    mov di, relocate_address
     mov cx, 512
     cld
     rep movsb
 
-    jmp 0x0000:(continue_boot - mbr_load_address + mbr_relocate_address) 
+    jmp 0x0000:(continue_boot - load_address + relocate_address) 
 
 continue_boot:
     call clear_screen
 
-    mov si, msg_mbr_start - mbr_load_address + mbr_relocate_address
+    mov si, mbr_start_str - load_address + relocate_address
     call print_string 
     call print_newline  
 
@@ -37,19 +37,19 @@ continue_boot:
     mov ch, 0                       
     mov cl, 2                       
     mov dh, 0                     
-    mov dl, [boot_drive - mbr_load_address + mbr_relocate_address]  
+    mov dl, [boot_drive - load_address + relocate_address]  
     mov bx, stage2_address             
     int 0x13  
 
-    mov si, msg_stage2_loaded - mbr_load_address + mbr_relocate_address
+    mov si, stage2_loaded_str - load_address + relocate_address
     call print_string  
 
-    mov [boot_drive - mbr_load_address + mbr_relocate_address], dl
+    mov [boot_drive - load_address + relocate_address], dl
 
     jmp 0x0000:stage2_address                    
 
 print_error:
-    mov si, msg_disk_error - mbr_load_address + mbr_relocate_address
+    mov si, disk_error_str - load_address + relocate_address
     call print_string
     call print_newline
 
@@ -58,7 +58,7 @@ print_error:
     jmp halt
 
 halt:
-    mov si, msg_system_halted - mbr_load_address + mbr_relocate_address
+    mov si, system_halted_str - load_address + relocate_address
     call print_string
     call print_newline
     cli                             
@@ -106,10 +106,10 @@ print_newline:
     popa
     ret  
 
-msg_mbr_start: db 'Master boot record started', 0  
-msg_stage2_loaded: db 'Stage 2 loaded successfully', 0
-msg_disk_error: db 'error: disk read error', 0
-msg_system_halted: db 'System halted', 0
+mbr_start_str: db 'Master boot record started', 0  
+stage2_loaded_str: db 'Stage 2 loaded successfully', 0
+disk_error_str: db 'error: disk read error', 0
+system_halted_str: db 'System halted', 0
 
 boot_drive: db 0
 
