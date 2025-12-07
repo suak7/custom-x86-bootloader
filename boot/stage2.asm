@@ -49,9 +49,9 @@ begin_pm:
 %include "boot/gdt.asm"
 %include "boot/switch_to_pm.asm"
 
-real_mode_str: db 'Running in 16-bit Real Mode', 0
-switching_pm_str: db 'Switching to Protected Mode...', 0
-protected_mode_str: db 'Now in 32-bit Protected Mode', 0
+real_mode_str: db 'Running in 16-bit real mode', 0
+switching_pm_str: db 'Switching to protected mode...', 0
+protected_mode_str: db 'Now in 32-bit protected mode', 0
 
 boot_drive: db 0
 cursor_pos: dd 0
