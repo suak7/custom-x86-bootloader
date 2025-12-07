@@ -17,7 +17,6 @@
 - QEMU
 
 ## Building
-**Build and Run**
 ```bash
 make all    # Build boot sector and disk image
 make run    # Run in QEMU
