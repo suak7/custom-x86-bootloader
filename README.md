@@ -4,12 +4,8 @@
 
 **x86 bootloader with USB driver support**
 
-| Start Date  | End Date |
-| ------------- | ------------- |
-| December 5, 2025  | Unknown  |
-
 </div>
-<p>A bootloader written from scratch that loads a second-stage loader, prints messages in both 16-bit and 32-bit modes, switches to protected mode, and lays the foundation for USB driver support.</p>
+<p>A bootloader written from scratch that lays the foundation for USB driver support. During stage one, the master boot record loads stage 2 from disk. In stage 2, the 16-bit real mode is initialized with outputs on screen through BIOS interrupts. Using a global descriptor table, we can transition from 16-bit real mode to 32-bit protected mode. Stage 2 outputs messages to the screen using both 16-bit (BIOS) and 32-bit (direct VGA memory) printing routines.</p>
 
 ## Requirements
 - x86_64-elf Cross-Compiler
