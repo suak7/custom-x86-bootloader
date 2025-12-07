@@ -18,8 +18,8 @@
 
 ## Building
 ```bash
-make all   # Build boot sector and disk image
-make run   # Run in QEMU
+make all    # Build boot sector and disk image
+make run    # Run in QEMU
 ```
 
 ## Resources
