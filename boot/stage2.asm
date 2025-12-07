@@ -1,4 +1,4 @@
-[org 0x7e00]                    
+[org 0x7e00]                   ; mbr loads at 0x7e00                
 [bits 16]                      
 
 start_stage2:
@@ -12,32 +12,29 @@ start_stage2:
     call print16_string
     call print16_newline  
 
-    mov ah, 0x03
+    mov ah, 0x03               ; get cursor position
     mov bh, 0x00
     int 0x10            
+    
+    ; offset = (row * 80 + column) * 2
+    xor ax, ax
+    mov al, dh                 ; al = row
+    mov bx, 160                ; 80 chars * 2 bytes per char
+    mul bx                     ; ax = row * 160
+    mov si, ax                 ; si = row offset
 
-    mov [cursor_row], dh
-    mov [cursor_col], dl
+    xor ax, ax
+    mov al, dl                 ; al = column
+    shl ax, 1                  ; ax = column * 2
+    add si, ax                 ; si = final offset
 
-    mov al, [cursor_row]   
-    xor ah, ah
-    mov bx, 160
-    mul bx                  
-    mov si, ax             
+    mov [cursor_pos], si       ; save for protected mode printing
 
-    mov al, [cursor_col]
-    xor ah, ah
-    shl ax, 1               
-
-    add si, ax              
-
-    mov word [cursor_pos], si
-    mov word [cursor_pos + 2], 0
-
-    call switch_to_pm
+    call switch_to_pm               
 
 [bits 32]
 
+; called by switch_to_pm after mode transition
 begin_pm:
     mov ebx, protected_mode_str
     call print32_string
@@ -58,4 +55,4 @@ cursor_pos: dd 0
 cursor_row: db 0
 cursor_col: db 0
 
-times 4096 - ($ - $$) db 0
+times 4096 - ($ - $$) db 0     ; pad to 4kb (8 sectors)

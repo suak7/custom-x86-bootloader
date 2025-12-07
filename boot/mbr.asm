@@ -5,9 +5,9 @@
 %define sector_size 512
 
 [org load_address]        
-[bits 16]                      ; CPU starts in 16-bit real mode
+[bits 16]                      ; cpu starts in 16-bit real mode
 
-; entry point where BIOS jumps here after loading MBR
+; entry point where bios jumps here after loading mbr
 start_boot:
     cli                        ; disable interrupts during setup
 
@@ -17,12 +17,12 @@ start_boot:
     mov ss, ax                 ; stack segment = 0               
     mov sp, load_address       ; stack grows down from 0x7c00     
 
-    ; BIOS passes boot drive number in dl (0x00 = floppy, 0x80 = hard disk)   
+    ; bios passes boot drive number in dl (0x00 = floppy, 0x80 = hard disk)   
     mov [boot_drive], dl
 
     sti                        ; re-enable interrupts
 
-    ; relocate MBR from 0x7c00 to 0x0600
+    ; relocate mbr from 0x7c00 to 0x0600
     ; to free up 0x7c00-0x7dff for stage 2 bootloader
     mov si, load_address       ; current location 
     mov di, relocate_address   ; destination is 0x0600
@@ -42,11 +42,11 @@ continue_boot:
     mov ah, 0x02               ; read sectors              
     mov al, stage2_sectors     ; number of sectors to read (8)          
     mov ch, 0                  ; cylinder 0                              
-    mov cl, 2                  ; start at sector 2 (sector 1 is MBR)                   
+    mov cl, 2                  ; start at sector 2 (sector 1 is mbr)                   
     mov dh, 0                  ; head 0             
     mov dl, [boot_drive - load_address + relocate_address]  
     mov bx, stage2_address              
-    int 0x13                   ; call BIOS
+    int 0x13                   ; call bios
 
     jc disk_error              ; carry flag set = error              
     cmp al, stage2_sectors     ; verify all sectors were read       
@@ -72,15 +72,15 @@ halt:
     call print16_newline
 
     cli                           
-    hlt                        ; halt CPU                        
-    jmp halt                   ; halt again in case of NMI 
+    hlt                        ; halt cpu                        
+    jmp halt                   ; halt again in case of nmi 
 
 clear_screen:
     pusha                      ; save all registers                       
     
     mov ah, 0x00               ; set video mode                 
     mov al, 0x03               ; 80x25 text, 16 colors    
-    int 0x10                   ; call BIOS video interrupt                  
+    int 0x10                   ; call bios video interrupt                  
     
     popa                       ; restore registers                        
     ret 
