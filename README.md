@@ -14,8 +14,6 @@
 
 </div>
 
-<p>During stage one, the master boot record loads stage 2 from disk. In stage 2, the 16-bit real mode is initialized with outputs on screen through BIOS interrupts. Using a global descriptor table, we can transition from 16-bit real mode to 32-bit protected mode. Stage 2 outputs messages to the screen using both 16-bit (BIOS) and 32-bit (direct VGA memory) printing routines.</p>
-
 ### Table of Contents
 
 - [Requirements](#requirements)
