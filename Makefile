@@ -38,7 +38,8 @@ CFLAGS := -m32 \
           -fno-builtin \
           -Wall \
           -Wextra \
-          -O2
+          -O2 \
+          -Ikernel/include
 
 LDFLAGS := -m elf_i386 \
            -T linker.ld \
@@ -58,7 +59,7 @@ $(STAGE2_BIN): $(STAGE2_SRC) $(STAGE2_DEPS) | $(BUILD_DIR)
 $(KERNEL_ENTRY_OBJ): $(KERNEL_ENTRY_SRC) | $(BUILD_DIR) 
 	$(ASM) -f elf32 $< -o $@
 
-$(KERNEL_C_OBJ): $(KERNEL_C_SRC) | $(BUILD_DIR) 
+$(BUILD_DIR)/%.o: $(KERNEL_SRC_DIR)/%.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(KERNEL_ELF): $(KERNEL_ENTRY_OBJ) $(KERNEL_C_OBJ) | $(BUILD_DIR)
