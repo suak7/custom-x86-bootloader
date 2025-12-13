@@ -1,16 +1,9 @@
 ASM := nasm
 QEMU := qemu-system-x86_64
 
-UNAME_S := $(shell uname -s)
-ifeq ($(UNAME_S),Darwin)
-	CC := i686-elf-gcc
-	LD := i686-elf-ld
-	OBJCOPY := i686-elf-objcopy
-else
-	CC := gcc
-	LD := ld
-	OBJCOPY := objcopy
-endif
+CC := i686-elf-gcc
+LD := i686-elf-ld
+OBJCOPY := i686-elf-objcopy
 
 BUILD_DIR := build
 IMAGE_DIR := images
@@ -52,15 +45,6 @@ LDFLAGS := -m elf_i386 \
 
 all: $(DISK_IMG)
 
-ifeq ($(UNAME_S),Darwin)
-check-toolchain:
-	@which $(CC) > /dev/null || (echo "error: $(CC) not found. Install with: brew install i686-elf-gcc" && exit 1)
-	@which $(LD) > /dev/null || (echo "error: $(LD) not found. Install with: brew install i686-elf-gcc" && exit 1)
-else
-check-toolchain:
-	@echo "Using native toolchain"
-endif
-
 $(BUILD_DIR) $(IMAGE_DIR) $(KERNEL_DIR):
 	@mkdir -p $@
 
@@ -81,12 +65,6 @@ $(KERNEL_ELF): $(KERNEL_ENTRY_OBJ) $(KERNEL_C_OBJ) | $(BUILD_DIR)
 
 $(KERNEL_BIN): $(KERNEL_ELF) | $(BUILD_DIR)
 	$(OBJCOPY) -O binary $< $@
-	@# Pad kernel to 8KB (16 sectors)
-	@if [ $(uname -s) = "Darwin" ]; then \
-		dd if=/dev/zero of=$@ bs=8192 count=1 conv=notrunc 2>/dev/null || true; \
-	else \
-		truncate -s 8192 $@; \
-	fi
 
 $(DISK_IMG): $(MBR_BIN) $(STAGE2_BIN) $(KERNEL_BIN) | $(IMAGE_DIR)
 	@cat $(MBR_BIN) $(STAGE2_BIN) $(KERNEL_BIN) > $@
