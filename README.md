@@ -16,12 +16,6 @@
 
 <p>The bare-metal x86 boot system starts from the master boot record (MBR), loads a second-stage bootloader, transitions to 32-bit protected mode, and executes a C kernel. The kernel currently runs without paging or interrupts, with PCI enumeration and USB controller initialization (EHCI) under active development.</p>
 
-### Table of Contents
-
-- [Requirements](#requirements)
-- [Building](#building)
-- [Resources](#resources)
-
 ## Requirements
 - x86_64-elf Cross-Compiler
 - GNU Make
