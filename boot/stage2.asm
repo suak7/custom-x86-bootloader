@@ -16,37 +16,40 @@ start_stage2:
     call print16_string
     call print16_newline
 
-    mov cx, 3
+    mov cx, 3                  ; set retry counter for disk reads                   
                        
 .load_retry:
-    push cx
+    push cx                    ; save retry counter
 
+    ; reset disk system (int 0x13, ah=0x00)
     mov ah, 0x00
     mov dl, [boot_drive]
     int 0x13
 
+    ; set up memory address for disk load
     mov ax, KERNEL_SEGMENT
     mov es, ax
     mov bx, KERNEL_OFFSET
     
-    mov ah, 0x02                
-    mov al, KERNEL_SECTORS      
-    mov ch, 0                   
-    mov cl, 10                  
-    mov dh, 0                   
+    mov ah, 0x02               ; function: read sectors      
+    mov al, KERNEL_SECTORS     ; number of sectors to read
+    mov ch, 0                  ; cylinder (track) number 0
+    mov cl, 10                 ; sector 10 (kernel is at LBA 9, which is track 0, head 0, sector 10 on a floppy)
+    mov dh, 0                  ; head number 0
     mov dl, [boot_drive]
     int 0x13
     
-    pop cx
-    jnc .load_success           
+    pop cx                
+    jnc .load_success          ; jump if carry flag is clear (success)
 
     mov bx, retry_str
     call print16_string
     
-    loop .load_retry
+    loop .load_retry           ; decrement cx and jump back if cx != 0
     jmp .disk_error
 
 .load_success:
+    ; ensure the first word of the loaded kernel isn't zero (a common sign of read failure/blank data)
     mov ax, [KERNEL_OFFSET]
     cmp ax, 0
     je .disk_error
@@ -83,6 +86,9 @@ begin_pm:
     call print32_string
     call print32_newline
     
+    ; jump to the kernel entry point
+    ; 0x08 is the code segment selector (from gdt)
+    ; 0x1000 is the physical memory address (offset)
     jmp 0x08:0x1000             
 
 %include "boot/print16_string.asm"
