@@ -5,3 +5,4 @@ images/
 *.o
 *.swp
 .DS_Store
+.vscode
