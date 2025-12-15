@@ -28,11 +28,16 @@ void pci_enumerate(void)
         for (uint8_t slot = 0; slot < 32; slot++)
         {
             uint32_t id = pci_read(bus, slot, 0, PCI_VENDOR_ID);
-            if ((id & 0xFFFF) == 0xFFFF)
+            
+            if ((id & 0xFFFF) == 0xFFFF) 
+            {
                 continue;  
+            }
 
             if (id == previous_device_id)
+            {
                 continue;
+            }
             previous_device_id = id;  
 
             uint32_t class_info = pci_read(bus, slot, 0, PCI_CLASS_INFO);
@@ -51,9 +56,7 @@ void pci_enumerate(void)
             serial_print_hex8(prog_if);
             serial_print("\n");
 
-            if (class_code == PCI_CLASS_SERIAL &&
-                subclass   == PCI_SUBCLASS_USB &&
-                prog_if    == 0x20)
+            if (class_code == PCI_CLASS_SERIAL && subclass == PCI_SUBCLASS_USB && prog_if == 0x20)
             {
                 print("EHCI controller found", 3);
 
@@ -139,6 +142,7 @@ void pci_enumerate(void)
                     for (volatile int i = 0; i < 100000; i++);
 
                     portsc = mmio_read32(opreg_base, portsc_addr);
+                    
                     if (portsc & EHCI_PORTSC_PO)
                     {
                         serial_print("  -> Owned by companion controller\n");
