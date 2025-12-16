@@ -1,16 +1,20 @@
 <div align="center">
   
-  # Artorias
-
+  # Artorias 
+  
 </div>
 
 <div align="center">
-  
+
+<div align="center">
+<img src="assets/QEMU_SUCCESS_WINDOW.png" width="720" height="430">
+</div>
+
+<br>
+
 [![Assembly](https://img.shields.io/badge/x86--64-Assembly-b9375e?style=flat-square)]()
 [![License](https://img.shields.io/badge/License-Apache_2.0-b9375e?style=flat-square)]()
-
-<sub>Two-stage x86 Bootloader • C Kernel • USB Driver Support</sub>
-
+  
 </div>
 
 <p>Artorias is a bare-metal x86 boot system that starts from the master boot record (MBR), loads a second-stage bootloader, transitions to 32-bit protected mode, and executes a C kernel with minimal USB driver support.</p>
