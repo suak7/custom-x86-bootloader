@@ -1,35 +1,7 @@
 #include "driver/pci.h"
 #include <kernel.h>
 #include "driver/serial.h"
-
-void print(const char* str, int row) 
-{
-    char* video = (char*)VIDEO_MEMORY;
-    video += row * 160;  
-    
-    int i = 0;
-    while (str[i] != '\0') 
-    {
-        video[i * 2] = str[i];      
-        video[i * 2 + 1] = WHITE_ON_BLACK;  
-        i++;
-    }
-}
-
-void print_hex(uint32_t value, int row) 
-{
-    const char* hex = "0123456789ABCDEF";
-    char buf[9];
-    buf[8] = '\0';
-
-    for (int i = 7; i >= 0; i--) 
-    {
-        buf[i] = hex[value & 0xF];
-        value >>= 4;
-    }
-
-    print(buf, row);
-}
+#include <kernel.h>
 
 void clear_screen(void) 
 {
@@ -47,14 +19,14 @@ void kernel_main(void)
     clear_screen();
     serial_init();
 
-    print("Kernel loaded successfully", 0);
-    print("Scanning PCI bus...", 1);
-
-    print("Enumerating PCI devices...", 2);
+    serial_print("\n");
+    serial_print("Kernel loaded successfully\n");
+    serial_print("Scanning PCI bus...\n");
+    serial_print("Enumerating PCI devices...\n");
 
     pci_enumerate();
 
-    print("PCI scan complete", 8);
+    serial_print("PCI scan complete\n");
 
     while (1) 
     {
