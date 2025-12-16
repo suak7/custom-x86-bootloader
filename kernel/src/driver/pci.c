@@ -42,6 +42,7 @@ void check_device(uint8_t bus, uint8_t slot, uint8_t func)
     vga_print_color(" ProgIF", LIGHT_BLUE, BLACK); vga_print(" = "); vga_print_hex8(prog_if);
     vga_print("\n");
 
+
     if (class_code == PCI_CLASS_SERIAL && subclass == PCI_SUBCLASS_USB && prog_if == 0x20)
     {
         serial_print("EHCI controller found\n");
@@ -79,7 +80,7 @@ void check_device(uint8_t bus, uint8_t slot, uint8_t func)
         vga_print_hex(usbcmd);
         vga_print("\n");
 
-        int timeout = 100000;
+        int timeout = USB_PORT_POWER_DELAY;
         while (!(mmio_read32(opreg_base, EHCI_USBSTS) & (1 << 12))) 
         {
             if (--timeout == 0) 
@@ -93,7 +94,7 @@ void check_device(uint8_t bus, uint8_t slot, uint8_t func)
         usbcmd |= (1 << 1); 
         mmio_write32(opreg_base, EHCI_USBCMD, usbcmd);
 
-        timeout = 100000;
+        timeout = USB_PORT_POWER_DELAY;
         while (mmio_read32(opreg_base, EHCI_USBCMD) & (1 << 1)) 
         {
             if (--timeout == 0) 
@@ -119,7 +120,7 @@ void check_device(uint8_t bus, uint8_t slot, uint8_t func)
 
             mmio_write32(opreg_base, portsc_addr, portsc | EHCI_PORTSC_PP);
 
-            for(volatile int k=0; k<100000; k++); 
+            for(volatile int k=0; k<USB_PORT_POWER_DELAY; k++); 
 
             portsc = mmio_read32(opreg_base, portsc_addr);
             if (portsc & EHCI_PORTSC_CCS) 
@@ -131,7 +132,7 @@ void check_device(uint8_t bus, uint8_t slot, uint8_t func)
                 vga_print("\n");
 
                 mmio_write32(opreg_base, portsc_addr, portsc | EHCI_PORTSC_PR);
-                for(volatile int k=0; k<200000; k++); 
+                for(volatile int k=0; k<USB_PORT_RESET_DELAY; k++); 
                 mmio_write32(opreg_base, portsc_addr, portsc & ~EHCI_PORTSC_PR);
 
                 timeout = 10000;
