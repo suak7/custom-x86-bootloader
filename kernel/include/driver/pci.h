@@ -33,9 +33,6 @@
 #define EHCI_PORTSC_PO (1 << 12)  
 #define EHCI_PORTSC_PP (1 << 13) 
 
-#define USB_PORT_POWER_DELAY 100000
-#define USB_PORT_RESET_DELAY 200000
-
 uint32_t pci_read(uint8_t bus, uint8_t slot, uint8_t func, uint8_t offset);
 void pci_print_device_info(uint8_t bus, uint8_t slot, uint8_t func, uint32_t id, uint8_t class_code, uint8_t subclass, uint8_t prog_if);
 void ehci_init_controller(uint8_t bus, uint8_t slot, uint8_t func);
