@@ -1,5 +1,5 @@
-#include "driver/pci.h"
 #include <kernel.h>
+#include "driver/pci.h"
 #include "driver/serial.h"
 #include "driver/vga.h"
 
@@ -13,7 +13,6 @@ void hcf(void)
 
 void kernel_main(void) 
 {
-    clear_screen();
     vga_init();
     serial_init();
 
