@@ -1,6 +1,5 @@
 ASM := nasm
 QEMU := qemu-system-x86_64
-
 CC := i686-elf-gcc
 LD := i686-elf-ld
 OBJCOPY := i686-elf-objcopy
