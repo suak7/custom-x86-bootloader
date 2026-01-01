@@ -6,12 +6,6 @@
   
 </div>
 
-<div align="center">
-
-<div align="center">
-<img src="assets/QEMU_WINDOW.png" height="720" width="420">
-</div>
-
 <br>
 
 [![Assembly](https://img.shields.io/badge/x86--64-Assembly-0466c8?style=flat-square)]()
