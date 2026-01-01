@@ -23,28 +23,22 @@ uint32_t pci_read(uint8_t bus, uint8_t slot, uint8_t func, uint8_t offset)
 
 void pci_print_device_info(uint8_t bus, uint8_t slot, uint8_t func, uint32_t id, uint8_t class_code, uint8_t subclass, uint8_t prog_if) 
 {
-    vga_print_color("PCI", LIGHT_BLUE, BLACK); 
-    vga_print(" ["); 
-    vga_print_hex8(bus); 
-    vga_print(":"); 
-    vga_print_hex8(slot); 
-    vga_print(":"); 
-    vga_print_hex8(func); 
-    vga_print("]");
-    vga_print_color(" ID", LIGHT_BLUE, BLACK); 
-    vga_print(" = "); 
-    vga_print_hex(id);
-    vga_print_color(" Class", LIGHT_BLUE, BLACK); 
-    vga_print(" = "); 
-    vga_print_hex8(class_code);
-    vga_print_color(" Subclass", LIGHT_BLUE, BLACK); 
-    vga_print(" = "); 
-    vga_print_hex8(subclass);
-    vga_print_color(" ProgIF", LIGHT_BLUE, BLACK); 
-    vga_print(" = "); 
-    vga_print_hex8(prog_if);
-    vga_print("\n");
-
+    serial_print("PCI ["); 
+    serial_print_hex8(bus); 
+    serial_print(":"); 
+    serial_print_hex8(slot); 
+    serial_print(":"); 
+    serial_print_hex8(func); 
+    serial_print("]");
+    serial_print(" ID = "); 
+    serial_print_hex(id);
+    serial_print(" Class = "); 
+    serial_print_hex8(class_code);
+    serial_print(" Subclass = ");  
+    serial_print_hex8(subclass);
+    serial_print(" ProgIF = "); 
+    serial_print_hex8(prog_if);
+    serial_print("\n");
 }
 
 void pci_check_device(uint8_t bus, uint8_t slot, uint8_t func) 
@@ -71,7 +65,7 @@ void pci_check_device(uint8_t bus, uint8_t slot, uint8_t func)
 
 void pci_enumerate(void)
 { 
-    vga_print_color("                            Welcome to Artorias!\n\n", LIGHT_MAGENTA, BLACK);
+    vga_print_color("                                    ARTORIAS\n\n", WHITE, BLACK);
 
     for (uint16_t bus = 0; bus < 256; bus++)
     {
