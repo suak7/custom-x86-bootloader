@@ -12,12 +12,6 @@
 
 [![Assembly](https://img.shields.io/badge/x86--64-Assembly-0466c8?style=flat-square)]()
 [![License](https://img.shields.io/badge/License-Apache_2.0-0466c8?style=flat-square)]()
-
-<p>
-  
-_IMPORTANT: Control transfers (device descriptors and string descriptors) are under active development._
-
-</p>
   
 </div>
 
@@ -33,7 +27,7 @@ _IMPORTANT: Control transfers (device descriptors and string descriptors) are un
 - [Resources](#resources)
 
 ## Documentation
-The complete documentation for the bootloader code can be found on my Medium page titled "[Writing a 32-bit x86 Bootloader from Scratch](<https://medium.com/@sumeyyaaktas/part-1-writing-a-custom-x86-bootloader-with-ehci-support-from-scratch-43cb7a5b736d>)". However, helpful comments for all code will still be provided. The full documentation for the rest of the code will be up as soon as possible. 
+The complete documentation and tutorial for the bootloader code can be found on my Medium page titled "[Writing a 32-bit x86 Bootloader from Scratch](<https://medium.com/@sumeyyaaktas/part-1-writing-a-custom-x86-bootloader-with-ehci-support-from-scratch-43cb7a5b736d>)".
 
 ## Features
 - Custom x86 bootloader (MBR-based)
@@ -64,7 +58,6 @@ make clean  # Clean build artifacts
 ## Limitations
 - This project implements an EHCI (Enhanced Host Controller Interface) driver, which only handles USB 2.0 high-speed (480 Mbps) devices.
 Low-speed (1.5 Mbps) and full-speed (12 Mbps) devices require companion controllers (UHCI/OHCI) and port handoff logic, which are not implemented. USB 3.x (xHCI) devices are also unsupported.
-- The driver does not issue additional control transfers to retrieve string descriptors (such as manufacturer name, product name, or serial number). As a result, devices cannot be identified by human-readable names and are only detected at a structural level.
 
 ## Resources
 - [Writing a Bootloader from Scratch - Carnegie Mellon University](<https://www.cs.cmu.edu/~410-s07/p4/p4-boot.pdf>)
