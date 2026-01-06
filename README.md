@@ -31,9 +31,7 @@ The complete documentation and tutorial for the bootloader code can be found on 
 
 ## Features
 - Custom x86 bootloader (MBR-based)
-- Freestanding 32-bit kernel
 - VGA text output, serial port (COM1), and programmable interval timer (PIT) drivers
-- PCI bus enumeration
 - Minimal EHCI (USB 2.0) controller support
   - Detects EHCI controllers via PCI class/subclass/progIF
   - Maps MMIO registers and parses EHCI capability and operational registers
@@ -62,8 +60,8 @@ Low-speed (1.5 Mbps) and full-speed (12 Mbps) devices require companion controll
 ## Resources
 - [Writing a Bootloader from Scratch - Carnegie Mellon University](<https://www.cs.cmu.edu/~410-s07/p4/p4-boot.pdf>)
 - [Rolling Your Own Bootloader - OSDev Wiki](<https://wiki.osdev.org/Rolling_Your_Own_Bootloader>)
-- [USB - OSDev Wiki](<https://wiki.osdev.org/Universal_Serial_Bus>)
 - [EHCI - OSDev Wiki](<https://wiki.osdev.org/Enhanced_Host_Controller_Interface>)
+- [EHCI Specification for USB - Intel](<https://www.intel.com/content/dam/www/public/us/en/documents/technical-specifications/ehci-specification-for-usb.pdf>)
 
 ## License
 
